@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../shared/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String            @id @default(uuid())
+  email     String            @unique
+  password  String // if not using Supabase Auth
+  createdAt DateTime          @default(now())
+  name      String?
+  progress  WorkoutProgress[]
+}
+
+model Program {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  level       String // e.g. beginner, advanced
+  imageUrl    String? // optional thumbnail
+  createdAt   DateTime @default(now())
+
+  workouts Workout[]
+}
+
+model Workout {
+  id        String  @id @default(uuid())
+  day       Int // e.g., Day 1, Day 2
+  title     String
+  restTime  Int // seconds of rest between exercises
+  programId String
+  program   Program @relation(fields: [programId], references: [id])
+
+  exercises Exercise[]
+  progress  WorkoutProgress[] // opposite relation field
+}
+
+model Exercise {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  sets        Int
+  reps        Int
+  duration    Int? // if time-based instead of reps
+  videoUrl    String? // optional demo video
+
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id])
+}
+
+model WorkoutProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  workoutId   String
+  completedAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  workout Workout @relation(fields: [workoutId], references: [id])
+}
