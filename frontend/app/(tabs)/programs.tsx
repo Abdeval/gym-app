@@ -84,7 +84,7 @@ export default function ProgramsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-gradient-to-br from-gray-900 to-black">
+    <View className="flex-1 bg-background-dark">
       <Header leftIcon="list" title="Programs" rightIcon="notifications" onRightPress={() => {}} />
 
       <View className="px-4 mt-6">

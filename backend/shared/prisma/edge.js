@@ -169,7 +169,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/youtcode/projects/gym-app/backend/shared/prisma",
+      "value": "D:\\PROJECTS\\gym-app\\backend\\shared\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -178,12 +178,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/youtcode/projects/gym-app/backend/prisma/schema.prisma",
+    "sourceFilePath": "D:\\PROJECTS\\gym-app\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -197,7 +197,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": true,
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

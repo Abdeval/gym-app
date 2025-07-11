@@ -1,4 +1,3 @@
-
 import {
   Body,
   Controller,
@@ -28,10 +27,10 @@ export class AuthController {
   signin(@Body() dto: SignInDto) {
     return this.authService.signin(dto);
   }
-  
+
   @UseGuards(JwtGuard)
   @Patch('updatePassword')
-  changePassword(@User("id") userId: string, @Body() dto: ChangePasswordDto) {
+  changePassword(@User('id') userId: string, @Body() dto: ChangePasswordDto) {
     return this.authService.changePassword(userId, dto);
   }
 }

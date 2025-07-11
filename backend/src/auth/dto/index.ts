@@ -12,19 +12,19 @@ export class SignUpDto {
 
   @IsString()
   @IsOptional()
-  name?: string
+  name?: string;
 
-//   @IsString()
-//   @IsOptional()
-//   firstName: string;
+  //   @IsString()
+  //   @IsOptional()
+  //   firstName: string;
 
-//   @IsString()
-//   @IsOptional()
-//   lastName: string;
+  //   @IsString()
+  //   @IsOptional()
+  //   lastName: string;
 
-//   @IsString()
-//   @IsOptional()
-//   role: Role;
+  //   @IsString()
+  //   @IsOptional()
+  //   role: Role;
 }
 export class SignInDto {
   @IsEmail()
@@ -35,7 +35,6 @@ export class SignInDto {
   @IsNotEmpty()
   password: string;
 }
-
 
 export class ChangePasswordDto {
   @IsString()

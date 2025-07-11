@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import * as argon from 'argon2';
@@ -13,23 +17,27 @@ export class AuthService {
     private config: ConfigService,
     private prisma: PrismaService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
   async signup(dto: SignUpDto) {
     try {
       const hash = await argon.hash(dto.password);
-
+      console.log('dto: ', dto);
       const user = await this.prisma.user.create({
         data: {
-        //   firstName: dto.firstName,
-        //   lastName: dto.lastName,
+          //   firstName: dto.firstName,
+          //   lastName: dto.lastName,
           email: dto.email,
           password: hash,
           name: dto.name || 'default',
         },
       });
 
-      const { id, password, ...result } = user;
-      return result;
+      // console.log(user);
+      const token = await this.signToken(user.id, user.email);
+      return {
+        // role: user.role,
+        access_token: token,
+      };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -60,23 +68,24 @@ export class AuthService {
     const token = await this.signToken(user.id, user.email);
     return {
       // role: user.role,
-      access_token: token
-    }
+      access_token: token,
+    };
   }
 
-  // ! change password 
+  // ! change password
   async changePassword(userId: string, dto: ChangePasswordDto) {
-    if (!userId) throw new ForbiddenException("Not authorized..!");
+    if (!userId) throw new ForbiddenException('Not authorized..!');
 
-    if (dto.newPassword !== dto.confirmNewPassword) throw new NotFoundException("passwords are not valid");
-    
+    if (dto.newPassword !== dto.confirmNewPassword)
+      throw new NotFoundException('passwords are not valid');
+
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
     });
 
-    if(!user) throw new NotFoundException("user not found");
+    if (!user) throw new NotFoundException('user not found');
 
     const valid = await argon.verify(user?.password, dto.currentPassword);
 
@@ -88,12 +97,12 @@ export class AuthService {
 
     return await this.prisma.user.update({
       where: {
-          id: userId
+        id: userId,
       },
       data: {
-        password: newHasedPassword
-      }
-    })
+        password: newHasedPassword,
+      },
+    });
   }
 
   async signToken(
@@ -103,7 +112,7 @@ export class AuthService {
   ): Promise<string> {
     const payload = { sub: id, email };
 
-    const secret = this.config.get('JWT_SECRET');
+    const secret = this.config.get<string>('JWT_SECRET');
 
     const token = await this.jwtService.signAsync(payload, { secret });
     return token;

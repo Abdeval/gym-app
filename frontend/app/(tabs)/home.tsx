@@ -13,19 +13,19 @@ export default function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-gradient-to-br from-gray-900 to-black">
+    <View className="flex-1 bg-background-dark">
       <Header leftIcon="barbell" title="Home" rightIcon="notifications" onRightPress={() => {}} />
 
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
         <View className="mt-6">
           <Text className="text-2xl font-bold text-white mb-2">Welcome back! 👋</Text>
-          <Text className="text-gray-400 text-base mb-6">Ready to crush today's workout?</Text>
+          <Text className="text-gray-400 text-base mb-6">Ready to crush today{"'"}s workout?</Text>
         </View>
 
         <Card className="mb-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/30">
           <View className="flex-row items-center justify-between">
             <View className="flex-1">
-              <Text className="text-white font-semibold text-lg mb-1">Today's Focus</Text>
+              <Text className="text-white font-semibold text-lg mb-1">Today{"'"}s Focus</Text>
               <Text className="text-blue-300 text-base">{todaysWorkout || "Push Day 💪"}</Text>
             </View>
             <TouchableOpacity onPress={handleStartTimer} className="bg-blue-500 rounded-full p-3">

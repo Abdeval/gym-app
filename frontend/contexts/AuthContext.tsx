@@ -149,8 +149,10 @@
 //   }
 //   return context
 // }
-import React, { createContext, useContext, useState, useEffect } from "react"
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import React, { createContext, useContext, useState } from "react"
+import * as SecureStore from "expo-secure-store"
+import { auth } from "@/lib/api/axios-instance.api"
+import { jwtDecode } from "jwt-decode";
 
 interface User {
   id: string
@@ -170,59 +172,48 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    // Vérifie si un token existe et récupère l'utilisateur
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem("token")
-      if (token) {
-        fetch("https://ton-api.com/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then(res => res.json())
-          .then(data => setUser(data))
-          .catch(() => setUser(null))
-          .finally(() => setLoading(false))
-      } else {
-        setLoading(false)
-      }
+  const [user, setUser] = useState<User | null>(() => {
+    const token = SecureStore.getItem("token");
+    if (token) {
+      const userData = jwtDecode(token) as User;
+      return userData;
     }
-    checkToken()
-  }, [])
+    return null;
+  })
+
+  console.log("User in AuthProvider:", user);
 
   const signIn = async (email: string, password: string) => {
-    const res = await fetch("https://ton-api.com/api/auth/signin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-    if (!res.ok) throw new Error("Login failed")
-    const data = await res.json()
-    await AsyncStorage.setItem("token", data.access_token)
-    setUser(data.user)
+    setLoading(true);
+    const res = await auth.post("/signin", { email, password });
+    if(res.data){
+      await SecureStore.setItemAsync("token", res.data.access_token);
+      const userData = jwtDecode(res.data.access_token) ;
+      setUser(userData as User) ;
+      setLoading(false);
+    }
   }
 
   const signUp = async (email: string, password: string, name?: string) => {
-    const res = await fetch("https://ton-api.com/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name }),
-    })
-    if (!res.ok) throw new Error("Register failed")
-    const data = await res.json()
-    await AsyncStorage.setItem("token", data.access_token)
-    setUser(data.user)
+    setLoading(true);
+    const res = await auth.post("/signup", { email, password, name });
+    console.log("Sign up response:", res.data);
+    if (!res.data) throw new Error("Sign up failed")
+    await SecureStore.setItemAsync("token", res.data.access_token)
+    const userData = jwtDecode(res.data.access_token) as User;
+    setUser(userData);
+    setLoading(false);
   }
 
   const signOut = async () => {
-    await AsyncStorage.removeItem("token")
+    await SecureStore.deleteItemAsync("token")
     setUser(null)
   }
 
   const updateProfile = async (data: { name?: string; email?: string }) => {
-    const token = await AsyncStorage.getItem("token")
+    const token = await SecureStore.getItemAsync("token")
     const res = await fetch("https://ton-api.com/api/auth/profile", {
       method: "PUT",
       headers: {

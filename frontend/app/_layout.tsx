@@ -2,15 +2,31 @@ import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { WorkoutProvider } from "@/contexts/WorkoutContext"
+import { useFonts } from "expo-font"
 import "../global.css"
 
 export default function RootLayout() {
+
+   const [loaded] = useFonts({
+    SpaceMono: require("@/assets/fonts/SpaceMono-Regular.ttf"),
+    Regular: require("@/assets/fonts/Poppins-Regular.ttf"),
+    Medium: require("@/assets/fonts/Poppins-Medium.ttf"),
+    semibold: require("@/assets/fonts/Poppins-SemiBold.ttf"),
+    Bold: require("@/assets/fonts/Poppins-Bold.ttf"),
+    Italic: require("@/assets/fonts/Poppins-Italic.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <AuthProvider>
+      <StatusBar style="dark"/>
       <WorkoutProvider>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(auth)" />
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(auth)" />
         </Stack>
         <StatusBar style="light" />
       </WorkoutProvider>
