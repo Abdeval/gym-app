@@ -13,6 +13,7 @@ import { Link, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/contexts/AuthContext";
 import { Colors } from "@/constants/colors";
+import { ButtonWithLoading } from "@/components/ButtonWithLoading";
 
 const { height } = Dimensions.get("window");
 const HEADER_HEIGHT = height * 0.3;
@@ -138,7 +139,7 @@ export default function SignInScreen() {
             <Text className="text-foreground-light font-medium mb-3">Email</Text>
             <View
               className={`flex-row items-center bg-foreground-dark rounded-3xl px-4 py-4 border ${
-                errors.email ? "border-primary" : "dark:border-black border-gray-200 "
+                errors.email ? "border-primary" : "border-white/20 "
               }`}
             >
               <Ionicons
@@ -169,7 +170,7 @@ export default function SignInScreen() {
             <Text className="text-foreground-light font-medium mb-3">Password</Text>
             <View
               className={`flex-row bg-foreground-dark items-center rounded-3xl px-4 py-4 border ${
-                errors.password ? "border-primary" : "dark:border-black border-gray-200"
+                errors.password ? "border-primary" : "border-white/20"
               }`}
             >
               <Ionicons
@@ -200,15 +201,7 @@ export default function SignInScreen() {
           </TouchableOpacity>
 
           {/* Sign In Button */}
-          <TouchableOpacity
-            onPress={handleSignIn}
-            disabled={loading}
-            className="bg-primary rounded-3xl py-4 items-center justify-center mt-8"
-          >
-            <Text className="text-white font-semibold text-base">
-              {loading ? "Signing In..." : "Sign In"}
-            </Text>
-          </TouchableOpacity>
+          <ButtonWithLoading loading={loading} onPress={handleSignIn} title="Sign In"/>
 
           {/* Divider */}
           <View className="flex-row items-center my-6">
@@ -221,14 +214,14 @@ export default function SignInScreen() {
           <View className="flex-row w-full items-center justify-center gap-4">
             <TouchableOpacity
               // onPress={signInWithGoogle}
-              className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center"
+              className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center border border-white/20"
             >
               <Ionicons name="logo-google" size={20} color="#DB4437" />
               <Text className="text-foreground-light font-medium ml-3">Google</Text>
             </TouchableOpacity>
             <TouchableOpacity
               // onPress={signInWithGoogle}
-              className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center"
+              className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center border border-white/20"
             >
               <Ionicons name="logo-apple" size={20} color={Colors.light.foreground} />
               <Text className="text-foreground-light font-medium ml-3">Google</Text>

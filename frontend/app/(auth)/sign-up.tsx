@@ -15,6 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/Button";
 import { Colors } from "@/constants/colors";
+import { ButtonWithLoading } from "@/components/ButtonWithLoading";
 
 const { height } = Dimensions.get("window");
 const HEADER_HEIGHT = height * 0.3;
@@ -99,7 +100,7 @@ export default function SignUpScreen() {
     try {
       await signUp(email, password, name);
       router.replace("/(tabs)/home");
-    } catch(err: any) {
+    } catch (err: any) {
       console.log("SignUp error:", err);
       Alert.alert("Error", "Failed to create account");
     } finally {
@@ -135,7 +136,11 @@ export default function SignUpScreen() {
         className="px-4 py-4"
       >
         <TouchableOpacity onPress={() => router.back()} className="mr-4">
-          <Ionicons name="arrow-back" size={24} color={Colors.light.foreground} />
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={Colors.light.foreground}
+          />
         </TouchableOpacity>
       </Animated.View>
 
@@ -154,7 +159,7 @@ export default function SignUpScreen() {
           className="bg-black rounded-t-[40px] px-4 py-8 flex-1"
         >
           {/* Name */}
-          <View className="flex-row items-center bg-white/10 border border-white/20 rounded-3xl px-4 py-4 mb-4">
+          <View className="flex-row items-center bg-foreground-dark border border-white/20 rounded-3xl px-4 py-4 mb-4">
             <Ionicons
               name="person-outline"
               size={20}
@@ -173,7 +178,7 @@ export default function SignUpScreen() {
           {/* Email */}
           <View className="mt-2">
             <View
-              className={`flex-row items-center bg-white/10 rounded-3xl px-4 py-4 border ${
+              className={`flex-row items-center bg-foreground-dark rounded-3xl px-4 py-4 border ${
                 errors.email ? "border-red-500" : "border-white/20"
               }`}
             >
@@ -203,7 +208,7 @@ export default function SignUpScreen() {
           {/* Password */}
           <View className="mt-4">
             <View
-              className={`flex-row items-center bg-white/10 rounded-3xl px-4 py-4 border ${
+              className={`flex-row items-center bg-foreground-dark rounded-3xl px-4 py-4 border ${
                 errors.password ? "border-red-500" : "border-white/20"
               }`}
             >
@@ -232,7 +237,7 @@ export default function SignUpScreen() {
           {/* Confirm Password */}
           <View className="mt-4">
             <View
-              className={`flex-row items-center bg-white/10 rounded-3xl px-4 py-4 border ${
+              className={`flex-row items-center bg-foreground-dark rounded-3xl px-4 py-4 border ${
                 errors.confirmPassword ? "border-red-500" : "border-white/20"
               }`}
             >
@@ -258,11 +263,11 @@ export default function SignUpScreen() {
             )}
           </View>
 
-          <Button
-            title="Sign Up"
-            onPress={handleSignUp}
+          <ButtonWithLoading
             loading={loading}
-            className="mt-6 bg-red-500"
+            onPress={handleSignUp}
+            title="Sign Up"
+            className="mt-4 py-24"
           />
 
           <View className="flex-row items-center my-6">
@@ -273,15 +278,11 @@ export default function SignUpScreen() {
 
           {/* Google & Apple Buttons */}
           <View className="flex-row w-full items-center justify-center gap-4">
-            <TouchableOpacity
-              className="bg-white/10 border border-white/20 flex-1 rounded-3xl py-4 flex-row items-center justify-center"
-            >
+            <TouchableOpacity className="bg-foreground-dark border border-white/20 flex-1 rounded-3xl py-4 flex-row items-center justify-center">
               <Ionicons name="logo-google" size={20} color="#DB4437" />
               <Text className="text-white font-medium ml-3">Google</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className="bg-white/10 border border-white/20 flex-1 rounded-3xl py-4 flex-row items-center justify-center"
-            >
+            <TouchableOpacity className="bg-foreground-dark border border-white/20 flex-1 rounded-3xl py-4 flex-row items-center justify-center">
               <Ionicons name="logo-apple" size={20} color="white" />
               <Text className="text-white font-medium ml-3">Apple</Text>
             </TouchableOpacity>

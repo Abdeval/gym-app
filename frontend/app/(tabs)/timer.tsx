@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAudioPlayer } from "expo-audio";
 import { Header } from "@/components/Header";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
@@ -12,12 +13,30 @@ export default function TimerScreen() {
   const [restTime, setRestTime] = useState(60);
   const [defaultRestTime, setDefaultRestTime] = useState(60);
   const [isRestPaused, setIsRestPaused] = useState(false);
-
   const workoutInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const restInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const pulseAnim = useRef(new Animated.Value(1)).current;
+  const player = useAudioPlayer(require("@/assets/sounds/sound.mp3"));
 
-  // Workout timer
+  // Initialize audio player
+  useEffect(() => {
+    // Audio player is automatically initialized when created
+    return () => {
+      // Cleanup is handled automatically by expo-audio
+    };
+  }, []);
+
+  // Play sound when rest timer finishes
+  const playRestCompleteSound = async () => {
+    try {
+      player.seekTo(0); // Reset to start
+      player.play();
+    } catch (error) {
+      console.log("Error playing sound:", error);
+    }
+  };
+
+  // ! Workout timer
   useEffect(() => {
     if (isWorkoutActive) {
       workoutInterval.current = setInterval(() => {
@@ -31,12 +50,14 @@ export default function TimerScreen() {
     };
   }, [isWorkoutActive]);
 
-  // Rest timer (pause/reprise inclus)
+  // ! Rest timer (pause/reprise included)
   useEffect(() => {
     if (isRestActive && !isRestPaused && restTime > 0) {
       restInterval.current = setInterval(() => {
         setRestTime((prev) => {
           if (prev <= 1) {
+            // Play sound when rest timer finishes
+            playRestCompleteSound();
             setIsRestActive(false);
             setIsRestPaused(false);
             return defaultRestTime;
@@ -128,8 +149,7 @@ export default function TimerScreen() {
       <Header
         leftIcon="timer"
         title="Timer"
-        rightIcon="notifications"
-        onRightPress={() => {}}
+        onLeftPress={playRestCompleteSound}
       />
 
       <View className="flex-1 px-4 pt-12 gap-4">
@@ -139,7 +159,6 @@ export default function TimerScreen() {
           <Text className="text-white text-6xl font-bold mb-4">
             {formatTime(workoutTime)}
           </Text>
-
           <View className="flex-row gap-4">
             <Button
               title={isWorkoutActive ? "Pause" : "Start"}
@@ -176,11 +195,9 @@ export default function TimerScreen() {
             >
               <Ionicons name="remove" size={20} color="white" />
             </TouchableOpacity>
-
             <Text className="text-gray-400 mx-4">
               Default: {formatTime(defaultRestTime)}
             </Text>
-
             <TouchableOpacity
               onPress={() => adjustRestTime(10)}
               className="bg-white/10 rounded-full p-2 ml-4"

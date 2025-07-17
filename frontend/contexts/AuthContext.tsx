@@ -155,7 +155,7 @@ import { auth } from "@/lib/api/axios-instance.api"
 import { jwtDecode } from "jwt-decode";
 
 interface User {
-  id: string
+  sub: string
   email: string
   name?: string
 }
@@ -167,6 +167,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, name?: string) => Promise<void>
   signOut: () => Promise<void>
   updateProfile: (data: { name?: string; email?: string }) => Promise<void>
+  updatePassword: (currentPassword: string, newPassword: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -183,7 +184,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   })
 
-  console.log("User in AuthProvider:", user);
+  // console.log("User in AuthProvider:", user);
 
   const signIn = async (email: string, password: string) => {
     setLoading(true);
@@ -212,6 +213,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null)
   }
 
+
+   // todo: will be in the future
   const updateProfile = async (data: { name?: string; email?: string }) => {
     const token = await SecureStore.getItemAsync("token")
     const res = await fetch("https://ton-api.com/api/auth/profile", {
@@ -227,6 +230,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(updatedUser)
   }
 
+  const updatePassword = async (currentPassword: string, newPassword: string) => {
+    const token = await SecureStore.getItemAsync("token");
+    console.log(currentPassword, newPassword);
+
+    const res = await auth.patch("/updatePassword", {
+      currentPassword,
+      newPassword,
+      confirmNewPassword: newPassword, 
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    // console.log(res);
+
+    if (!res.data) throw new Error("Password update failed")
+    await SecureStore.setItemAsync("token", res.data.access_token)  
+    const userData = jwtDecode(res.data.access_token) as User;
+
+    setUser(userData);  
+    console.log("Password updated successfully");
+
+    return res.data;
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -236,6 +266,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signUp,
         signOut,
         updateProfile,
+        updatePassword
       }}
     >
       {children}

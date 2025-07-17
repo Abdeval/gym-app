@@ -1,15 +1,7 @@
-"use client"
-
+import { Program } from "@/lib/types"
 import type React from "react"
 import { createContext, useContext, useState } from "react"
 
-interface Program {
-  id: string
-  name: string
-  level: string
-  currentWeek: number
-  totalWeeks: number
-}
 
 interface WorkoutContextType {
   activeProgram: Program | null

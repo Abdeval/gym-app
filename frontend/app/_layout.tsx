@@ -1,13 +1,13 @@
-import { Stack } from "expo-router"
-import { StatusBar } from "expo-status-bar"
-import { AuthProvider } from "@/contexts/AuthContext"
-import { WorkoutProvider } from "@/contexts/WorkoutContext"
-import { useFonts } from "expo-font"
-import "../global.css"
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { WorkoutProvider } from "@/contexts/WorkoutContext";
+import { useFonts } from "expo-font";
+import "../global.css";
+import { PodcastProvider } from "@/contexts/PodcastsContext";
 
 export default function RootLayout() {
-
-   const [loaded] = useFonts({
+  const [loaded] = useFonts({
     SpaceMono: require("@/assets/fonts/SpaceMono-Regular.ttf"),
     Regular: require("@/assets/fonts/Poppins-Regular.ttf"),
     Medium: require("@/assets/fonts/Poppins-Medium.ttf"),
@@ -22,14 +22,16 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <StatusBar style="dark"/>
-      <WorkoutProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="(auth)" />
-        </Stack>
-        <StatusBar style="light" />
-      </WorkoutProvider>
+      <PodcastProvider>
+        <StatusBar style="dark" />
+        <WorkoutProvider>
+          <Stack  screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(auth)" />
+          </Stack>
+          <StatusBar style="light" />
+        </WorkoutProvider>
+      </PodcastProvider>
     </AuthProvider>
-  )
+  );
 }
