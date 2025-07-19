@@ -13,17 +13,18 @@ async function bootstrap() {
     }),
   );
 
-  // ! enalbe the frontend end to access the backend
+  // ! enable the frontend end to access the backend
   app.enableCors({
-    origin: [
-      'http://18.156.158.53:3000',
-      'http://localhost:3000',
-      'http://localhost:5173',
-      'exp://', // Expo dev client
-      'frontend://', // Your custom scheme (if set)
-      'http://localhost', // For dev builds
-      'https://u.expo.dev/7aa578b1-b743-4956-9af6-421e70e5ad61',
-    ],
+    // origin: [
+    //   'http://18.156.158.53:3000',
+    //   'http://localhost:3000',
+    //   'http://localhost:5173',
+    //   'exp://', // Expo dev client
+    //   'frontend://', // Your custom scheme (if set)
+    //   'http://localhost', // For dev builds
+    //   'https://u.expo.dev/7aa578b1-b743-4956-9af6-421e70e5ad61',
+    // ],
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

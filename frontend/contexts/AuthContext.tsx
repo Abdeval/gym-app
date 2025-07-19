@@ -163,8 +163,8 @@ interface User {
 interface AuthContextType {
   user: User | null
   loading: boolean
-  signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string, name?: string) => Promise<void>
+  signIn: (email: string, password: string) => Promise<any>
+  signUp: (email: string, password: string, name?: string) => Promise<any>
   signOut: () => Promise<void>
   updateProfile: (data: { name?: string; email?: string }) => Promise<void>
   updatePassword: (currentPassword: string, newPassword: string) => Promise<void>
@@ -194,6 +194,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const userData = jwtDecode(res.data.access_token) ;
       setUser(userData as User) ;
       setLoading(false);
+      return userData;
     }
   }
 
@@ -206,6 +207,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userData = jwtDecode(res.data.access_token) as User;
     setUser(userData);
     setLoading(false);
+    return userData;
   }
 
   const signOut = async () => {

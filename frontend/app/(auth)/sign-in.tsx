@@ -84,10 +84,12 @@ export default function SignInScreen() {
 
     setLoading(true);
     try {
-      await signIn(email, password);
+      const res = await signIn(email, password);
+      console.log(res);
       router.replace("/(tabs)/home");
     } catch(err: any) {
-      Alert.alert(err, "Invalid credentials");
+      console.log(err.status);
+      Alert.alert("Error", err.message);
     } finally {
       setLoading(false);
     }

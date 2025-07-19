@@ -99,23 +99,24 @@ export default function SignUpScreen() {
 
     setLoading(true);
     try {
-      await signUp(email, password, name);
+      const res = await signUp(email, password, name);
       router.replace("/(tabs)/home");
+      console.log(res);
     } catch (err: any) {
-      console.log("SignUp error:", err);
-      Alert.alert(err, "Invalid credentials");
+      console.log(err.status);
+      Alert.alert("Error", err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <ImageBackground 
+    <ImageBackground
       source={require("@/assets/images/ui/home.png")}
       className="flex-1 relative"
     >
       {/* transparent background */}
-      <View className="h-screen w-screen top-0 left-0 right-0 bottom-0 absolute bg-primary/20"/>
+      <View className="h-screen w-screen top-0 left-0 right-0 bottom-0 absolute bg-primary/20" />
       {/* Header */}
       <View
         className="w-full justify-center items-center"
