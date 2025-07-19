@@ -22,7 +22,7 @@ async function bootstrap() {
       'exp://', // Expo dev client
       'frontend://', // Your custom scheme (if set)
       'http://localhost', // For dev builds
-      'https://u.expo.dev', // EAS Update requests
+      'https://u.expo.dev/7aa578b1-b743-4956-9af6-421e70e5ad61',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,

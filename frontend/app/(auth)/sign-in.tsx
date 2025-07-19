@@ -86,8 +86,8 @@ export default function SignInScreen() {
     try {
       await signIn(email, password);
       router.replace("/(tabs)/home");
-    } catch {
-      Alert.alert("Error", "Invalid credentials");
+    } catch(err: any) {
+      Alert.alert(err, "Invalid credentials");
     } finally {
       setLoading(false);
     }

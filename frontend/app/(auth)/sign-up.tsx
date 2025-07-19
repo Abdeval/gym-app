@@ -103,7 +103,7 @@ export default function SignUpScreen() {
       router.replace("/(tabs)/home");
     } catch (err: any) {
       console.log("SignUp error:", err);
-      Alert.alert("Error", "Failed to create account");
+      Alert.alert(err, "Invalid credentials");
     } finally {
       setLoading(false);
     }
