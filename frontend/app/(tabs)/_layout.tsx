@@ -1,15 +1,14 @@
-"use client"
 
-import { Redirect, Tabs } from "expo-router"
-import { Ionicons } from "@expo/vector-icons"
-import { useAuth } from "@/contexts/AuthContext"
-import { Colors } from "@/constants/colors"
-import { GestureHandlerRootView } from "react-native-gesture-handler"
+import { Redirect, Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "@/contexts/AuthContext";
+import { Colors } from "@/constants/colors";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function TabLayout() {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
-  if (!user) return <Redirect href="/(auth)/sign-in" />
+  if (!user) return <Redirect href="/(auth)/sign-in" />;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -45,7 +44,11 @@ export default function TabLayout() {
           options={{
             title: "Home",
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? Colors.primary : color} />
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={24}
+                color={focused ? Colors.primary : color}
+              />
             ),
           }}
         />
@@ -54,7 +57,11 @@ export default function TabLayout() {
           options={{
             title: "Timer",
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "timer" : "timer-outline"} size={24} color={focused ? Colors.primary : color} />
+              <Ionicons
+                name={focused ? "timer" : "timer-outline"}
+                size={24}
+                color={focused ? Colors.primary : color}
+              />
             ),
           }}
         />
@@ -63,7 +70,11 @@ export default function TabLayout() {
           options={{
             title: "Programs",
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons name={focused ? "list" : "list-outline"} size={24} color={focused ? Colors.primary : color} />
+              <Ionicons
+                name={focused ? "list" : "list-outline"}
+                size={24}
+                color={focused ? Colors.primary : color}
+              />
             ),
           }}
         />
@@ -95,5 +106,5 @@ export default function TabLayout() {
         />
       </Tabs>
     </GestureHandlerRootView>
-  )
+  );
 }

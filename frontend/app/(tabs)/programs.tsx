@@ -11,6 +11,7 @@ import { LoadingError } from "@/components/Loading";
 import { AppleLoader } from "@/components/AppleLoader";
 import { Colors } from "@/constants/colors";
 import { PullToRefresh } from "@/components/PullToRefresh";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // const PROGRAMS = {
 //   beginner: [
@@ -139,124 +140,131 @@ export default function ProgramsScreen() {
   }, []);
 
   return (
-    <View className="flex-1 bg-background-dark">
-      <Header leftIcon="list" title="Programs" />
-      
-      <View className="px-4 mt-6">
-        <Text className="text-2xl font-bold text-white mb-6">
-          Choose Your Program
-        </Text>
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 bg-background-dark">
+        <Header leftIcon="list" title="Programs" />
 
-        <View className="flex-row mb-6">
-          {levels.map((level) => (
-            <TouchableOpacity
-              key={level.key}
-              onPress={() => setSelectedLevel(level.key)}
-              className={`flex-1 py-3 mx-1 rounded-xl ${
-                selectedLevel === level.key ? level.color : "bg-white/10"
-              }`}
-            >
-              <Text className="text-white font-medium text-center">
-                {level.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+        <View className="px-4 mt-6">
+          <Text className="text-2xl font-bold text-white mb-6">
+            Choose Your Program
+          </Text>
 
-      <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
-        {loading ? (
-          <View
-            style={{
-              height: 130,
-            }}
-            className="flex items-center justify-center bg-foreground-dark rounded-3xl border border-white/10"
-          >
-            <AppleLoader size={30} color={Colors.primary} />
-          </View>
-        ) : error ? (
-          <Error text={error as string} className="h-60" />
-        ) : (
-          programs[selectedLevel].map((program) => (
-            <Card key={program.id} className="mb-4">
+          <View className="flex-row mb-6">
+            {levels.map((level) => (
               <TouchableOpacity
-                onPress={() =>
-                  setExpandedProgram(
-                    expandedProgram === program.id ? null : program.id
-                  )
-                }
+                key={level.key}
+                onPress={() => setSelectedLevel(level.key)}
+                className={`flex-1 py-3 mx-1 rounded-xl ${
+                  selectedLevel === level.key ? level.color : "bg-white/10"
+                }`}
               >
-                <View className="flex-row items-center justify-between mb-3">
-                  <View className="flex-1">
-                    <Text className="text-white font-semibold text-lg mb-1">
-                      {program.title}
-                    </Text>
-                    <Text className="text-gray-400 text-sm mb-2">
-                      {program.description}
-                    </Text>
-                    <View className="flex-row items-center">
-                      <View
-                        className={`px-2 py-1 rounded-full mr-3 ${
-                          program.level === "Beginner"
-                            ? "bg-green-500/20"
-                            : program.level === "Intermediate"
-                            ? "bg-yellow-500/20"
-                            : "bg-red-500/20"
-                        }`}
-                      >
-                        <Text
-                          className={`text-xs font-medium ${
+                <Text className="text-white font-medium text-center">
+                  {level.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <ScrollView
+          className="flex-1 px-4"
+          showsVerticalScrollIndicator={false}
+        >
+          {loading ? (
+            <View
+              style={{
+                height: 130,
+              }}
+              className="flex items-center justify-center bg-foreground-dark rounded-3xl border border-white/10"
+            >
+              <AppleLoader size={30} color={Colors.primary} />
+            </View>
+          ) : error ? (
+            <Error text={error as string} className="h-60" />
+          ) : (
+            programs[selectedLevel].map((program) => (
+              <Card key={program.id} className="mb-4">
+                <TouchableOpacity
+                  onPress={() =>
+                    setExpandedProgram(
+                      expandedProgram === program.id ? null : program.id
+                    )
+                  }
+                >
+                  <View className="flex-row items-center justify-between mb-3">
+                    <View className="flex-1">
+                      <Text className="text-white font-semibold text-lg mb-1">
+                        {program.title}
+                      </Text>
+                      <Text className="text-gray-400 text-sm mb-2">
+                        {program.description}
+                      </Text>
+                      <View className="flex-row items-center">
+                        <View
+                          className={`px-2 py-1 rounded-full mr-3 ${
                             program.level === "Beginner"
-                              ? "text-green-400"
+                              ? "bg-green-500/20"
                               : program.level === "Intermediate"
-                              ? "text-yellow-400"
-                              : "text-red-400"
+                              ? "bg-yellow-500/20"
+                              : "bg-red-500/20"
                           }`}
                         >
-                          {program.level}
-                        </Text>
-                      </View>
-                      {/* <Text className="text-gray-400 text-sm">
+                          <Text
+                            className={`text-xs font-medium ${
+                              program.level === "Beginner"
+                                ? "text-green-400"
+                                : program.level === "Intermediate"
+                                ? "text-yellow-400"
+                                : "text-red-400"
+                            }`}
+                          >
+                            {program.level}
+                          </Text>
+                        </View>
+                        {/* <Text className="text-gray-400 text-sm">
                       {program.duration}
                     </Text> */}
+                      </View>
                     </View>
+                    <Ionicons
+                      name={
+                        expandedProgram === program.id
+                          ? "chevron-up"
+                          : "chevron-down"
+                      }
+                      size={20}
+                      color="#9CA3AF"
+                    />
                   </View>
-                  <Ionicons
-                    name={
-                      expandedProgram === program.id
-                        ? "chevron-up"
-                        : "chevron-down"
-                    }
-                    size={20}
-                    color="#9CA3AF"
-                  />
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
 
-              {expandedProgram === program.id && (
-                <View className="mt-4 pt-4 border-t border-white/10">
-                  <Text className="text-white font-medium mb-3">Workouts:</Text>
-                  {program.workouts.map((workout: any, index: any) => (
-                    <View key={index} className="flex-row items-center mb-2">
-                      <View className="w-2 h-2 bg-primary rounded-full mr-3" />
-                      <Text className="text-gray-300">{workout.title}</Text>
-                    </View>
-                  ))}
-                  <TouchableOpacity
-                    onPress={() => handleSelectProgram(program)}
-                    className="bg-primary rounded-xl py-3 mt-4"
-                  >
-                    <Text className="text-white font-medium text-center">
-                      Start Program
+                {expandedProgram === program.id && (
+                  <View className="mt-4 pt-4 border-t border-white/10">
+                    <Text className="text-white font-medium mb-3">
+                      Workouts:
                     </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </Card>
-          ))
-        )}
-        <View className="h-20" />
-      </ScrollView>
-    </View>
+                    {program.workouts.map((workout: any, index: any) => (
+                      <View key={index} className="flex-row items-center mb-2">
+                        <View className="w-2 h-2 bg-primary rounded-full mr-3" />
+                        <Text className="text-gray-300">{workout.title}</Text>
+                      </View>
+                    ))}
+                    <TouchableOpacity
+                      onPress={() => handleSelectProgram(program)}
+                      className="bg-primary rounded-xl py-3 mt-4"
+                    >
+                      <Text className="text-white font-medium text-center">
+                        Start Program
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </Card>
+            ))
+          )}
+          <View className="h-20" />
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }

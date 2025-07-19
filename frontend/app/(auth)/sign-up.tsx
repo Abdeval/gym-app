@@ -157,7 +157,7 @@ export default function SignUpScreen() {
         style={{ height: FORM_HEIGHT, marginTop: -40 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <Animated.View
+        <Animated.ScrollView
           style={{
             opacity: fadeAnim,
             transform: [{ scale: scaleAnim }, { translateY: slideAnim }],
@@ -303,7 +303,7 @@ export default function SignUpScreen() {
               </TouchableOpacity>
             </Link>
           </View>
-        </Animated.View>
+        </Animated.ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
   );

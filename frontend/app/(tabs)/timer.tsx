@@ -1,10 +1,17 @@
 import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  ScrollView,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAudioPlayer } from "expo-audio";
 import { Header } from "@/components/Header";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TimerScreen() {
   const [isWorkoutActive, setIsWorkoutActive] = useState(false);
@@ -145,127 +152,133 @@ export default function TimerScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background-dark">
-      <Header
-        leftIcon="timer"
-        title="Timer"
-        onLeftPress={playRestCompleteSound}
-      />
+    <SafeAreaView className="flex-1">
+      <View className="flex-1 bg-background-dark">
+        <Header
+          leftIcon="timer"
+          title="Timer"
+          onLeftPress={playRestCompleteSound}
+        />
 
-      <View className="flex-1 px-4 pt-12 gap-4">
-        {/* Workout Timer */}
-        <Card className="items-center py-8">
-          <Text className="text-gray-400 text-lg mb-2">Workout Duration</Text>
-          <Text className="text-white text-6xl font-bold mb-4">
-            {formatTime(workoutTime)}
-          </Text>
-          <View className="flex-row gap-4">
-            <Button
-              title={isWorkoutActive ? "Pause" : "Start"}
-              onPress={handleStartPause}
-              className={`px-8 ${
-                isWorkoutActive ? "bg-yellow-500" : "bg-green-500"
-              }`}
-            />
-            <Button
-              title="Reset"
-              onPress={handleReset}
-              className="px-8 bg-red-500"
-            />
-          </View>
-        </Card>
-
-        {/* Rest Timer */}
-        <Card className="items-center py-8">
-          <Text className="text-gray-400 text-lg mb-2">Rest Timer</Text>
-          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
-            <Text
-              className={`text-5xl font-bold mb-4 ${
-                isRestActive ? "text-orange-400" : "text-white"
-              }`}
-            >
-              {formatTime(restTime)}
-            </Text>
-          </Animated.View>
-
-          <View className="flex-row items-center mb-4">
-            <TouchableOpacity
-              onPress={() => adjustRestTime(-10)}
-              className="bg-white/10 rounded-full p-2 mr-4"
-            >
-              <Ionicons name="remove" size={20} color="white" />
-            </TouchableOpacity>
-            <Text className="text-gray-400 mx-4">
-              Default: {formatTime(defaultRestTime)}
-            </Text>
-            <TouchableOpacity
-              onPress={() => adjustRestTime(10)}
-              className="bg-white/10 rounded-full p-2 ml-4"
-            >
-              <Ionicons name="add" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-
-          <View className="flex-row gap-4">
-            {!isRestActive ? (
-              <Button
-                title="Start Rest"
-                onPress={handleStartRest}
-                className="px-8 bg-orange-500"
-              />
-            ) : isRestPaused ? (
-              <>
+        <ScrollView className="flex-1">
+          {/* Workout Timer */}
+          <View className="h-full w-full px-4 pt-12 gap-4">
+            <Card className="items-center py-8">
+              <Text className="text-gray-400 text-lg mb-2">
+                Workout Duration
+              </Text>
+              <Text className="text-white text-6xl font-bold mb-4">
+                {formatTime(workoutTime)}
+              </Text>
+              <View className="flex-row gap-4">
                 <Button
-                  title="Resume"
-                  onPress={handleResumeRest}
-                  className="px-8 bg-green-500"
+                  title={isWorkoutActive ? "Pause" : "Start"}
+                  onPress={handleStartPause}
+                  className={`px-8 ${
+                    isWorkoutActive ? "bg-yellow-500" : "bg-green-500"
+                  }`}
                 />
                 <Button
-                  title="Skip Rest"
-                  onPress={handleSkipRest}
-                  className="px-8 bg-blue-500"
+                  title="Reset"
+                  onPress={handleReset}
+                  className="px-8 bg-red-500"
                 />
-              </>
-            ) : (
-              <>
-                <Button
-                  title="Pause"
-                  onPress={handlePauseRest}
-                  className="px-8 bg-yellow-500"
-                />
-                <Button
-                  title="Skip Rest"
-                  onPress={handleSkipRest}
-                  className="px-8 bg-blue-500"
-                />
-              </>
-            )}
-          </View>
-        </Card>
+              </View>
+            </Card>
 
-        {/* Quick Rest Times */}
-        <Card className="py-6">
-          <Text className="text-white font-semibold text-lg mb-4 text-center">
-            Quick Rest Times
-          </Text>
-          <View className="flex-row justify-around">
-            {[30, 60, 90, 120].map((time) => (
-              <TouchableOpacity
-                key={time}
-                onPress={() => {
-                  setDefaultRestTime(time);
-                  setRestTime(time);
-                }}
-                className={`px-4 py-2 rounded-xl ${
-                  defaultRestTime === time ? "bg-blue-500" : "bg-white/10"
-                }`}
-              >
-                <Text className="text-white font-medium">{time}s</Text>
-              </TouchableOpacity>
-            ))}
+            {/* Rest Timer */}
+            <Card className="items-center py-8">
+              <Text className="text-gray-400 text-lg mb-2">Rest Timer</Text>
+              <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+                <Text
+                  className={`text-5xl font-bold mb-4 ${
+                    isRestActive ? "text-orange-400" : "text-white"
+                  }`}
+                >
+                  {formatTime(restTime)}
+                </Text>
+              </Animated.View>
+
+              <View className="flex-row items-center mb-4">
+                <TouchableOpacity
+                  onPress={() => adjustRestTime(-10)}
+                  className="bg-white/10 rounded-full p-2 mr-4"
+                >
+                  <Ionicons name="remove" size={20} color="white" />
+                </TouchableOpacity>
+                <Text className="text-gray-400 mx-4">
+                  Default: {formatTime(defaultRestTime)}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => adjustRestTime(10)}
+                  className="bg-white/10 rounded-full p-2 ml-4"
+                >
+                  <Ionicons name="add" size={20} color="white" />
+                </TouchableOpacity>
+              </View>
+
+              <View className="flex-row gap-4">
+                {!isRestActive ? (
+                  <Button
+                    title="Start Rest"
+                    onPress={handleStartRest}
+                    className="px-8 bg-orange-500"
+                  />
+                ) : isRestPaused ? (
+                  <>
+                    <Button
+                      title="Resume"
+                      onPress={handleResumeRest}
+                      className="px-8 bg-green-500"
+                    />
+                    <Button
+                      title="Skip Rest"
+                      onPress={handleSkipRest}
+                      className="px-8 bg-blue-500"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      title="Pause"
+                      onPress={handlePauseRest}
+                      className="px-8 bg-yellow-500"
+                    />
+                    <Button
+                      title="Skip Rest"
+                      onPress={handleSkipRest}
+                      className="px-8 bg-blue-500"
+                    />
+                  </>
+                )}
+              </View>
+            </Card>
+
+            {/* Quick Rest Times */}
+            <Card className="py-6">
+              <Text className="text-white font-semibold text-lg mb-4 text-center">
+                Quick Rest Times
+              </Text>
+              <View className="flex-row justify-around">
+                {[30, 60, 90, 120].map((time) => (
+                  <TouchableOpacity
+                    key={time}
+                    onPress={() => {
+                      setDefaultRestTime(time);
+                      setRestTime(time);
+                    }}
+                    className={`px-4 py-2 rounded-xl ${
+                      defaultRestTime === time ? "bg-blue-500" : "bg-white/10"
+                    }`}
+                  >
+                    <Text className="text-white font-medium">{time}s</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </Card>
           </View>
-        </Card>
+        </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

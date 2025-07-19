@@ -24,7 +24,7 @@ export function Header({ leftIcon, title, showNotification, rightIcon, onLeftPre
           overflow: "hidden",
         }}
       >
-        <View className="flex-row items-center justify-between px-4 pt-12 pb-4 bg-background-dark rounded-b-3xl">
+        <View className="flex-row items-center justify-between px-4 pt-6 pb-4 bg-background-dark rounded-b-3xl">
           <TouchableOpacity
             onPress={onLeftPress}
             className="rounded-full p-3"

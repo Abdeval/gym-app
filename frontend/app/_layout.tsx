@@ -5,6 +5,7 @@ import { WorkoutProvider } from "@/contexts/WorkoutContext";
 import { useFonts } from "expo-font";
 import "../global.css";
 import { PodcastProvider } from "@/contexts/PodcastsContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -21,17 +22,19 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <PodcastProvider>
-        <StatusBar style="dark" />
-        <WorkoutProvider>
-          <Stack  screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(auth)" />
-          </Stack>
-          <StatusBar style="light" />
-        </WorkoutProvider>
-      </PodcastProvider>
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <PodcastProvider>
+          <StatusBar style="dark" />
+          <WorkoutProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="(auth)" />
+            </Stack>
+            <StatusBar style="light" />
+          </WorkoutProvider>
+        </PodcastProvider>
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }

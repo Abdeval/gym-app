@@ -8,8 +8,21 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { router } from "expo-router";
+import { useEffect } from "react";
+import * as Updates from "expo-updates";
 
 export default function Index() {
+  useEffect(() => {
+    async function updateApp() {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    }
+    updateApp();
+  }, []);
+
   return (
     <ImageBackground
       source={require("@/assets/images/ui/background.jpg")}
