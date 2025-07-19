@@ -2,11 +2,11 @@ import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
 
 const api = axios.create({
-    baseURL: 'http://192.168.90.126:4000/api',
+    baseURL: `${process.env.EXPO_PUBLIC_API_URL}/api`,
 });
 
 const auth = axios.create({
-    baseURL: 'http://192.168.90.126:4000/api/auth',
+    baseURL: `${process.env.EXPO_PUBLIC_API_URL}/api/auth`,
 });
 
 

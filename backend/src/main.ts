@@ -16,7 +16,7 @@ async function bootstrap() {
   // ! enalbe the frontend end to access the backend
   app.enableCors({
     origin: [
-      'http://192.168.90.126:3000',
+      'http://18.156.158.53:3000',
       'http://localhost:3000',
       'http://localhost:5173',
     ],

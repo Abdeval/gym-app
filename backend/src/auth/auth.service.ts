@@ -33,6 +33,7 @@ export class AuthService {
       });
 
       // console.log(user);
+      console.log(user.name, ' => signed up');
       const token = await this.signToken(user.id, user.email);
       return {
         // role: user.role,
@@ -64,6 +65,8 @@ export class AuthService {
     if (!valid) {
       throw new ForbiddenException("Password doesn't match");
     }
+
+    console.log(user.name, ' => signed in');
     // console.log(user);
     const token = await this.signToken(user.id, user.email);
     return {

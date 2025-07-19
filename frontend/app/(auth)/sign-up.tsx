@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Animated,
+  ImageBackground,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -109,7 +110,12 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View className="flex-1 bg-red-500">
+    <ImageBackground 
+      source={require("@/assets/images/ui/home.png")}
+      className="flex-1 relative"
+    >
+      {/* transparent background */}
+      <View className="h-screen w-screen top-0 left-0 right-0 bottom-0 absolute bg-primary/20"/>
       {/* Header */}
       <View
         className="w-full justify-center items-center"
@@ -292,12 +298,12 @@ export default function SignUpScreen() {
             <Text className="text-gray-400">Already have an account? </Text>
             <Link href="/(auth)/sign-in" asChild>
               <TouchableOpacity>
-                <Text className="text-blue-400 font-medium">Sign In</Text>
+                <Text className="text-primary font-medium">Sign In</Text>
               </TouchableOpacity>
             </Link>
           </View>
         </Animated.View>
       </KeyboardAvoidingView>
-    </View>
+    </ImageBackground>
   );
 }

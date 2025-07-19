@@ -25,7 +25,7 @@ export default function Index() {
           "
             >
               <Image
-                source={require("@/assets/images/icon.png")}
+                source={require("@/assets/images/ui/logo.png")}
                 className="w-full h-full"
               />
             </View>

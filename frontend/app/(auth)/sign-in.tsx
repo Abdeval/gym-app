@@ -8,6 +8,7 @@ import {
   Animated,
   SafeAreaView,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -93,7 +94,12 @@ export default function SignInScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-primary">
+    <ImageBackground
+      source={require("@/assets/images/ui/home.png")}
+      className="flex-1 relative"
+    >
+      {/* transparent background */}
+      <View className="h-screen w-screen top-0 left-0 right-0 bottom-0 absolute bg-primary/20" />
       {/* Header */}
       <View
         className="w-full justify-center items-center"
@@ -120,7 +126,11 @@ export default function SignInScreen() {
         className="px-4 py-4"
       >
         <TouchableOpacity onPress={() => router.back()} className="mr-4">
-          <Ionicons name="arrow-back" size={24} color={Colors.light.foreground} />
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={Colors.light.foreground}
+          />
         </TouchableOpacity>
       </Animated.View>
 
@@ -136,7 +146,9 @@ export default function SignInScreen() {
         <View className="space-y-6">
           {/* Email Field */}
           <View>
-            <Text className="text-foreground-light font-medium mb-3">Email</Text>
+            <Text className="text-foreground-light font-medium mb-3">
+              Email
+            </Text>
             <View
               className={`flex-row items-center bg-foreground-dark rounded-3xl px-4 py-4 border ${
                 errors.email ? "border-primary" : "border-white/20 "
@@ -167,7 +179,9 @@ export default function SignInScreen() {
 
           {/* Password Field */}
           <View>
-            <Text className="text-foreground-light font-medium mb-3">Password</Text>
+            <Text className="text-foreground-light font-medium mb-3">
+              Password
+            </Text>
             <View
               className={`flex-row bg-foreground-dark items-center rounded-3xl px-4 py-4 border ${
                 errors.password ? "border-primary" : "border-white/20"
@@ -201,7 +215,11 @@ export default function SignInScreen() {
           </TouchableOpacity>
 
           {/* Sign In Button */}
-          <ButtonWithLoading loading={loading} onPress={handleSignIn} title="Sign In"/>
+          <ButtonWithLoading
+            loading={loading}
+            onPress={handleSignIn}
+            title="Sign In"
+          />
 
           {/* Divider */}
           <View className="flex-row items-center my-6">
@@ -217,14 +235,22 @@ export default function SignInScreen() {
               className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center border border-white/20"
             >
               <Ionicons name="logo-google" size={20} color="#DB4437" />
-              <Text className="text-foreground-light font-medium ml-3">Google</Text>
+              <Text className="text-foreground-light font-medium ml-3">
+                Google
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               // onPress={signInWithGoogle}
               className="bg-foreground-dark flex-1 rounded-3xl py-4 flex-row items-center justify-center border border-white/20"
             >
-              <Ionicons name="logo-apple" size={20} color={Colors.light.foreground} />
-              <Text className="text-foreground-light font-medium ml-3">Google</Text>
+              <Ionicons
+                name="logo-apple"
+                size={20}
+                color={Colors.light.foreground}
+              />
+              <Text className="text-foreground-light font-medium ml-3">
+                Google
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -239,6 +265,6 @@ export default function SignInScreen() {
           </Link>
         </View>
       </Animated.ScrollView>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
