@@ -139,7 +139,7 @@ export default function SignInScreen() {
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }, { translateY: slideAnim }],
         }}
-        className="px-6 py-6 rounded-t-[40px] dark:bg-background-dark bg-background-light -mt-10"
+        className="px-6 py-6 rounded-t-[40px] bg-background-dark -mt-10"
         showsVerticalScrollIndicator={false}
       >
         {/* Form */}
@@ -161,7 +161,7 @@ export default function SignInScreen() {
                 className="mr-3"
               />
               <TextInput
-                className="flex-1 dark:text-white text-black text-base ml-3"
+                className="flex-1 text-white text-base ml-3"
                 placeholder="Enter your email"
                 placeholderTextColor="#9CA3AF"
                 value={email}
@@ -194,7 +194,7 @@ export default function SignInScreen() {
                 className="mr-3"
               />
               <TextInput
-                className="flex-1 dark:text-white text-black text-base ml-3"
+                className="flex-1 text-white text-base ml-3"
                 placeholder="Create a password"
                 placeholderTextColor="#9CA3AF"
                 value={password}

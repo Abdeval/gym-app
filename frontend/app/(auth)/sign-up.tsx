@@ -162,7 +162,7 @@ export default function SignUpScreen() {
             transform: [{ scale: scaleAnim }, { translateY: slideAnim }],
             flex: 1,
           }}
-          className="bg-black rounded-t-[40px] px-4 py-8 flex-1"
+          className="bg-background-dark rounded-t-[40px] px-4 py-8 flex-1"
         >
           {/* Name */}
           <View className="flex-row items-center bg-foreground-dark border border-white/20 rounded-3xl px-4 py-4 mb-4">
